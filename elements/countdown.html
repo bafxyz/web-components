@@ -1,0 +1,32 @@
+<style>
+  countdown-element {
+    color: #2b6dad;
+  }
+</style>
+
+<script>
+  window.customElements.define('countdown-element', class extends HTMLElement {
+
+    /**
+     * Constructs the object.
+     */
+    constructor() {
+      super();
+
+      let shadowRoot = this.attachShadow({mode: 'open'});
+      let remainingTime = this.dataset.time;
+
+      const x = setInterval(function() {
+        const days = Math.floor(remainingTime / 86400);
+        const hours = Math.floor((remainingTime / 3600) % 24);
+        const minutes = Math.floor((remainingTime / 60) % 60);
+        const seconds = Math.floor(remainingTime % 60);
+
+        remainingTime <= 0 ? window.clearInterval(x) : remainingTime--;
+
+        shadowRoot.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      }, 1000);
+    }
+
+  });
+</script>
